@@ -26,7 +26,7 @@ sudo wget -O /usr/local/bin/rke -q https://github.com/rancher/rke/releases/downl
 sudo chmod +x /usr/local/bin/rke
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-sudo echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update -q
 sudo apt-get install -yq kubectl
 
