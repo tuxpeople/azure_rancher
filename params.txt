@@ -1,4 +1,0 @@
-R_REMOTEIP=52.136.224.210
-R_LOCALIP=10.0.0.4
-R_NODEUSER=rancher
-R_NODEFQDN=rancher-gm9r37.westeurope.cloudapp.azure.com
