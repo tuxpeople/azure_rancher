@@ -2,9 +2,9 @@
 
 . params.txt
 
-sudo apt-get update && sudo apt-get upgrade -y
-sudo apt autoremove -y
-sudo apt-get install -y docker.io vim apt-transport-https curl
+sudo apt-get update -q && sudo apt-get upgrade -yq
+sudo apt autoremove -yq
+sudo apt-get install -yq docker.io vim apt-transport-https curl
 sudo bash -c 'cat > /etc/docker/daemon.json <<EOF
 {
   "exec-opts": ["native.cgroupdriver=systemd"],
@@ -22,15 +22,15 @@ sudo usermod -a -G docker ${R_NODEUSER}
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -N ""
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
-sudo wget -O /usr/local/bin/rke https://github.com/rancher/rke/releases/download/v1.0.2/rke_linux-amd64
+sudo wget -O /usr/local/bin/rke -q https://github.com/rancher/rke/releases/download/v1.0.2/rke_linux-amd64
 sudo chmod +x /usr/local/bin/rke
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-sudo apt-get update
-sudo apt-get install -y kubectl
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update -q
+sudo apt-get install -yq kubectl
 
-sudo wget -O helm.tar.gz https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
+sudo wget -O helm.tar.gz -q https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
 sudo tar -zxf helm.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 sudo chmod +x /usr/local/bin/helm
