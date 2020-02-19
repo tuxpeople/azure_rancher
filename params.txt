@@ -1,4 +1,4 @@
-R_REMOTEIP=23.100.11.190
+R_REMOTEIP=52.136.224.210
 R_LOCALIP=10.0.0.4
-R_NODEUSER=tuxpeople
-R_NODEFQDN=rancher-gnu2dm.westeurope.cloudapp.azure.com
+R_NODEUSER=rancher
+R_NODEFQDN=rancher-gm9r37.westeurope.cloudapp.azure.com
