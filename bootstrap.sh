@@ -4,7 +4,7 @@
 AZ_GROUP=RANCHER
 AZ_LOCATION=westeurope
 R_NODENAME=rancher
-R_NODEUSER=tuxpeople
+R_NODEUSER=rancher
 R_NODESSH="~/.ssh/id_rsa.pub"
 
 # Vars which get auto assembled
