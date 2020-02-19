@@ -9,3 +9,5 @@ Needs Azure CLI installed and logged in.
 See head of bootstrap.sh for settings.
 
 This has no tests, no security checks and error handling. You've been warned!
+
+A deployment takes approx. 17min
