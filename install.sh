@@ -22,7 +22,7 @@ sudo usermod -a -G docker ${R_NODEUSER}
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -N ""
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
-sudo wget -O /usr/local/bin/rke -q https://github.com/rancher/rke/releases/download/v1.0.4/rke_linux-amd64
+sudo wget -O /usr/local/bin/rke -q https://github.com/rancher/rke/releases/download/v${RKE_VERSION}/rke_linux-amd64
 sudo chmod +x /usr/local/bin/rke
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -30,7 +30,7 @@ echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/
 sudo apt-get update -q
 sudo apt-get install -yq kubectl
 
-sudo wget -O helm.tar.gz -q https://get.helm.sh/helm-v3.1.0-linux-amd64.tar.gz
+sudo wget -O helm.tar.gz -q https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz
 sudo tar -zxf helm.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 sudo chmod +x /usr/local/bin/helm
@@ -52,10 +52,10 @@ mkdir -p ~/.kube
 ln -s ~/kube_config_rancher-cluster.yml ~/.kube/config
 
 kubectl create namespace cert-manager
-kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.13/deploy/manifests/00-crds.yaml
+kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-${CERTMANAGER_VERSION}/deploy/manifests/00-crds.yaml
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-helm install   cert-manager --namespace cert-manager   --version v0.13.0   jetstack/cert-manager
+helm install   cert-manager --namespace cert-manager   --version v${CERTMANAGER_VERSION}.0   jetstack/cert-manager
 kubectl -n cert-manager rollout status deploy/cert-manager
 kubectl -n cert-manager rollout status deploy/cert-manager-webhook
 
