@@ -34,7 +34,7 @@ echo "R_NODEUSER=${R_NODEUSER}" >> params.txt
 echo "R_NODEFQDN=${R_NODEFQDN}" >> params.txt
 
 # Upload stage 2 and params to new vm and execute it
-scp -o StrictHostKeyChecking=accept-new install.sh ${R_NODEUSER}@${R_NODEFQDN}:
+scp install.sh ${R_NODEUSER}@${R_NODEFQDN}:
 scp params.txt ${R_NODEUSER}@${R_NODEFQDN}:
 ssh ${R_NODEUSER}@${R_NODEFQDN} "chmod +x install.sh"
 ssh ${R_NODEUSER}@${R_NODEFQDN} ./install.sh
