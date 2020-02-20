@@ -22,7 +22,7 @@ sudo usermod -a -G docker ${R_NODEUSER}
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -N ""
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
-sudo wget -O /usr/local/bin/rke -q https://github.com/rancher/rke/releases/download/v1.0.2/rke_linux-amd64
+sudo wget -O /usr/local/bin/rke -q https://github.com/rancher/rke/releases/download/v1.0.4/rke_linux-amd64
 sudo chmod +x /usr/local/bin/rke
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
