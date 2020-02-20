@@ -30,7 +30,7 @@ echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/
 sudo apt-get update -q
 sudo apt-get install -yq kubectl
 
-sudo wget -O helm.tar.gz -q https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
+sudo wget -O helm.tar.gz -q https://get.helm.sh/helm-v3.1.0-linux-amd64.tar.gz
 sudo tar -zxf helm.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 sudo chmod +x /usr/local/bin/helm
