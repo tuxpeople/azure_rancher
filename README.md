@@ -1,6 +1,6 @@
 # Azure Rancher
 
-Scripts I made to get me a Rancher installation on azure quickly. With Let's Encrypt. Dirty code. You shall not use it :-P
+Scripts I made to get me a Rancher installation on Azure quickly. With Let's Encrypt. Dirty code. You shall not use it :-P
 
 Needs Azure CLI installed and logged in.
 
