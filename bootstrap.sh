@@ -51,5 +51,11 @@ scp params.txt ${R_NODEUSER}@${R_NODEFQDN}:
 ssh ${R_NODEUSER}@${R_NODEFQDN} "chmod +x install.sh"
 ssh ${R_NODEUSER}@${R_NODEFQDN} ./install.sh
 
+echo ""
+echo "Rancher is at https://${R_NODEFQDN}"
+echo ""
+echo "To delete everything, use the following command:"
+echo "    az group delete --name ${AZ_GROUP}"
+
 # Cleanup
 rm params.txt
