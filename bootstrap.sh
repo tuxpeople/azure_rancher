@@ -39,6 +39,10 @@ echo "RKE_VERSION=${RKE_VERSION}" >> params.txt
 echo "HELM_VERSION=${HELM_VERSION}" >> params.txt
 echo "CERTMANAGER_VERSION=${CERTMANAGER_VERSION}" >> params.txt
 
+# Get Hostkeys
+ssh-keygen -R ${R_NODEFQDN}
+ssh-keyscan -H ${R_NODEFQDN} >> ~/.ssh/known_hosts
+
 # Upload stage 2 and params to new vm and execute it
 scp install.sh ${R_NODEUSER}@${R_NODEFQDN}:
 scp params.txt ${R_NODEUSER}@${R_NODEFQDN}:
