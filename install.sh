@@ -65,5 +65,11 @@ helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 helm repo update
 kubectl create namespace cattle-system
 
-helm install rancher rancher-latest/rancher   --namespace cattle-system   --set hostname=${R_NODEFQDN}   --set replicas=1   --set 'extraEnv[0].name=CATTLE_INGRESS_IP_DOMAIN'   --set 'extraEnv[0].value=on.hobbyfarm.io'
+helm install rancher rancher-latest/rancher \
+    --namespace cattle-system \
+    --set hostname=${R_NODEFQDN} \
+    --set replicas=1 \
+    --set ingress.tls.source=letsEncrypt \
+    --set letsEncrypt.email=${LETSENCRYPTMAIL}
+
 while true; do curl -kv https://${R_NODEFQDN} 2>&1 | grep -q "cattle-ca"; if [ $? != 0 ]; then echo "Rancher isn't ready yet"; sleep 5; continue; fi; break; done; echo "Rancher is Ready";

@@ -9,6 +9,7 @@ R_NODESSH="~/.ssh/id_rsa.pub"
 RKE_VERSION=1.0.4
 HELM_VERSION=3.1.0
 CERTMANAGER_VERSION=0.13
+LETSENCRYPTMAIL=me@default.com
 
 # Vars which get auto assembled
 R_NODEDNS=${R_NODENAME}-$(cat /dev/urandom | LC_CTYPE=C tr -dc 'a-z0-9' | fold -w 6 | head -n 1)
@@ -38,6 +39,7 @@ echo "R_NODEFQDN=${R_NODEFQDN}" >> params.txt
 echo "RKE_VERSION=${RKE_VERSION}" >> params.txt
 echo "HELM_VERSION=${HELM_VERSION}" >> params.txt
 echo "CERTMANAGER_VERSION=${CERTMANAGER_VERSION}" >> params.txt
+echo "LETSENCRYPTMAIL=${LETSENCRYPTMAIL}" >> params.txt
 
 # Get Hostkeys
 ssh-keygen -R ${R_NODEFQDN}
