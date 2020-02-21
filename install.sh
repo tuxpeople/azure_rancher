@@ -72,4 +72,6 @@ helm install rancher rancher-latest/rancher \
     --set ingress.tls.source=letsEncrypt \
     --set letsEncrypt.email=${LETSENCRYPTMAIL}
 
-while true; do curl -kv https://${R_NODEFQDN} 2>&1 | grep -q "cattle-ca"; if [ $? != 0 ]; then echo "Rancher isn't ready yet"; sleep 5; continue; fi; break; done; echo "Rancher is Ready";
+kubectl -n cattle-system rollout status deploy/rancher
+
+while true; do curl -kv https://${R_NODEFQDN} 2>&1 | grep -q "Let's Encrypt Authority"; if [ $? != 0 ]; then echo "Rancher isn't ready yet"; sleep 5; continue; fi; break; done; echo "Rancher is Ready";
