@@ -8,7 +8,7 @@ R_NODEUSER=rancher
 R_NODESSH="~/.ssh/id_rsa.pub"
 RKE_VERSION=1.0.4
 HELM_VERSION=3.1.2
-CERTMANAGER_VERSION=0.13
+CERTMANAGER_VERSION=0.13.1
 LETSENCRYPTMAIL=me@default.com
 
 # Vars which get auto assembled
