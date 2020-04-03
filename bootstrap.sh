@@ -6,10 +6,8 @@ AZ_LOCATION=westeurope
 R_NODENAME=rancher
 R_NODEUSER=rancher
 R_NODESSH="~/.ssh/id_rsa.pub"
-RKE_VERSION=1.0.4
-HELM_VERSION=3.1.2
-CERTMANAGER_VERSION=0.13.1
 LETSENCRYPTMAIL=me@default.com
+DOCKER_VERSION="19.03"
 
 # Vars which get auto assembled
 R_NODEDNS=${R_NODENAME}-$(cat /dev/urandom | LC_CTYPE=C tr -dc 'a-z0-9' | fold -w 6 | head -n 1)
@@ -31,6 +29,11 @@ az vm create \
 # Open all doors
 az vm open-port --resource-group ${AZ_GROUP} --name ${R_NODENAME} --port "*"
 
+# get versions
+RKE_VERSION=$(lynx https://github.com/rancher/rke/releases/latest -dump -hiddenlinks=listonly | grep download | cut -d'/' -f8 | head -1 | sed 's/v//')
+HELM_VERSION=$(lynx https://github.com/helm/helm/releases -dump -hiddenlinks=listonly | grep /helm/helm/releases/tag/v3. | grep -v no-underline | head -n 1 | cut -d'/' -f8 | sed 's/v//')
+CERTMANAGER_VERSION=$(lynx https://github.com/jetstack/cert-manager/releases/latest -dump -hiddenlinks=listonly | grep download | cut -d'/' -f8 | head -1 | sed 's/v//')
+
 # Creating params file for stage 2
 echo "R_REMOTEIP=$(az vm list-ip-addresses -n ${R_NODENAME} | grep ipAddress | cut -d'"' -f4)" > params.txt
 echo "R_LOCALIP=$(az vm list-ip-addresses -n ${R_NODENAME} | grep -A 1 privateIpAddresses | tail -1 | cut -d'"' -f2)" >> params.txt
@@ -40,6 +43,7 @@ echo "RKE_VERSION=${RKE_VERSION}" >> params.txt
 echo "HELM_VERSION=${HELM_VERSION}" >> params.txt
 echo "CERTMANAGER_VERSION=${CERTMANAGER_VERSION}" >> params.txt
 echo "LETSENCRYPTMAIL=${LETSENCRYPTMAIL}" >> params.txt
+echo "DOCKER_VERSION=${DOCKER_VERSION}" >> params.txt
 
 # Get Hostkeys
 ssh-keygen -R ${R_NODEFQDN}

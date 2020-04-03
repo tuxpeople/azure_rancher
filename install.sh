@@ -1,22 +1,28 @@
 #!/bin/bash
 
+set -e
+
 . params.txt
 
 sudo apt-get update -q && sudo apt-get upgrade -yq
 sudo apt autoremove -yq
-sudo apt-get install -yq docker.io vim apt-transport-https curl
-sudo bash -c 'cat > /etc/docker/daemon.json <<EOF
-{
-  "exec-opts": ["native.cgroupdriver=systemd"],
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "100m"
-  },
-  "storage-driver": "overlay2"
-}
-EOF'
-sudo systemctl enable docker.service
-sudo systemctl start docker
+sudo apt-get install -yq vim apt-transport-https curl
+#sudo apt-get install -yq docker.io
+#sudo bash -c 'cat > /etc/docker/daemon.json <<EOF
+#{
+#  "exec-opts": ["native.cgroupdriver=systemd"],
+#  "log-driver": "json-file",
+#  "log-opts": {
+#    "max-size": "100m"
+#  },
+#  "storage-driver": "overlay2"
+#}
+#EOF'
+#sudo systemctl enable docker.service
+#sudo systemctl start docker
+
+curl https://releases.rancher.com/install-docker/${DOCKER_VERSION}.sh | sh
+
 sudo usermod -a -G docker ${R_NODEUSER}
 
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -N ""
@@ -52,7 +58,7 @@ mkdir -p ~/.kube
 ln -s ~/kube_config_rancher-cluster.yml ~/.kube/config
 
 kubectl create namespace cert-manager
-kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-${CERTMANAGER_VERSION}/deploy/manifests/00-crds.yaml
+kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-$(echo ${CERTMANAGER_VERSION} | cut -d'.' -f1-2)/deploy/manifests/00-crds.yaml
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 helm install   cert-manager --namespace cert-manager   --version v${CERTMANAGER_VERSION}.0   jetstack/cert-manager
