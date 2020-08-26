@@ -29,6 +29,7 @@ rm -rf /etc/ceph \
        /var/lib/rancher/rke/log \
        /var/log/containers \
        /var/log/pods \
-       /var/run/calico
+       /var/run/calico \
+       /var/lib/longhorn/*
 sudo reboot
  
