@@ -7,19 +7,6 @@ set -e
 sudo apt-get update -q && sudo apt-get upgrade -yq
 sudo apt autoremove -yq
 sudo apt-get install -yq vim apt-transport-https curl
-#sudo apt-get install -yq docker.io
-#sudo bash -c 'cat > /etc/docker/daemon.json <<EOF
-#{
-#  "exec-opts": ["native.cgroupdriver=systemd"],
-#  "log-driver": "json-file",
-#  "log-opts": {
-#    "max-size": "100m"
-#  },
-#  "storage-driver": "overlay2"
-#}
-#EOF'
-#sudo systemctl enable docker.service
-#sudo systemctl start docker
 
 curl https://releases.rancher.com/install-docker/${DOCKER_VERSION}.sh | sh
 
@@ -57,26 +44,29 @@ rke up --config rancher-cluster.yml
 mkdir -p ~/.kube
 ln -s ~/kube_config_rancher-cluster.yml ~/.kube/config
 
-kubectl create namespace cert-manager
-kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/${CERTMANAGER_VERSION}/cert-manager.crds.yaml
+helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-helm install   cert-manager --namespace cert-manager   --version v${CERTMANAGER_VERSION}   jetstack/cert-manager
+
+kubectl create namespace cert-manager
+helm install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --version v${CERTMANAGER_VERSION} \
+  --set installCRDs=true
+helm install cert-manager --namespace cert-manager --version v${CERTMANAGER_VERSION} jetstack/cert-manager
 kubectl -n cert-manager rollout status deploy/cert-manager
 kubectl -n cert-manager rollout status deploy/cert-manager-webhook
 
 sleep 60
 
-helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
-helm repo update
 kubectl create namespace cattle-system
-
 helm install rancher rancher-latest/rancher \
-    --namespace cattle-system \
-    --set hostname=${R_NODEFQDN} \
-    --set replicas=1 \
-    --set ingress.tls.source=letsEncrypt \
-    --set letsEncrypt.email=${LETSENCRYPTMAIL}
+  --namespace cattle-system \
+  --set hostname=${R_NODEFQDN} \
+  --set replicas=1 \
+  --set ingress.tls.source=letsEncrypt \
+  --set letsEncrypt.email=${LETSENCRYPTMAIL}
 
 kubectl -n cattle-system rollout status deploy/rancher
 
