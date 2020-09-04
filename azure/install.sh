@@ -58,10 +58,10 @@ mkdir -p ~/.kube
 ln -s ~/kube_config_rancher-cluster.yml ~/.kube/config
 
 kubectl create namespace cert-manager
-kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-$(echo ${CERTMANAGER_VERSION} | cut -d'.' -f1-2)/deploy/manifests/00-crds.yaml
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/${CERTMANAGER_VERSION}/cert-manager.crds.yaml
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-helm install   cert-manager --namespace cert-manager   --version v${CERTMANAGER_VERSION}.0   jetstack/cert-manager
+helm install   cert-manager --namespace cert-manager   --version v${CERTMANAGER_VERSION}   jetstack/cert-manager
 kubectl -n cert-manager rollout status deploy/cert-manager
 kubectl -n cert-manager rollout status deploy/cert-manager-webhook
 
