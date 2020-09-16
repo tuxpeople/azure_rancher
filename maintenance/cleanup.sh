@@ -31,5 +31,5 @@ rm -rf /etc/ceph \
        /var/log/pods \
        /var/run/calico \
        /var/lib/longhorn/*
-sudo reboot
+reboot
  
